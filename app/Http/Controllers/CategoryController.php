@@ -13,9 +13,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories= Category::all();
-
-        return view('categories.index',compact('categories'));
+        $categories=Category::paginate(25);
+        return view('categories.index')->with('categories',$categories);
     }
 
     /**
@@ -24,7 +23,6 @@ class CategoryController extends Controller
     public function create()
     {
         return view('categories.create');
-        
     }
 
     /**
@@ -32,15 +30,21 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        
-        Category::create(
+
+        if(Category::create(
             [
                 'name'=>$request->name,
                 'description'=>$request->description,
                 'type'=>$request->type,
                 'status'=>isset($request->status)
             ]
-            );
+            ))
+        {
+            toastr()->success("create done successfully");
+        }
+        else{
+            toastr()->error("something went wrong");
+        }
             return redirect(route('categories.index')) ;
     }
 
@@ -57,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit',compact('category'));
     }
 
     /**
@@ -65,7 +69,19 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        if ($category ->update([
+            'name'=>$request->name,
+            'description'=>$request->description,
+            'type'=>$request->type,
+            'status'=>isset($request->status)
+        ])) {
+            toastr()->success("update done successfully");
+        }
+        else{
+            toastr()->error("something went wrong");
+        }
+        return redirect(route('categories.index')) ;
+
     }
 
     /**
@@ -73,6 +89,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        if ($category ->delete()) {
+            toastr()->success("delete done successfully");
+        }
+        else{
+            toastr()->error("something went wrong");
+        }
+        return redirect(route('categories.index'));
     }
 }
