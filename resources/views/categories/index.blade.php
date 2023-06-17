@@ -12,12 +12,10 @@
         <th>Type</th>
         <th>Status</th>
         <th>Action</th>
-
       </tr>
     </thead>
     <tbody>
         @foreach ($categories as $category)
-
             <tr>
                 <td>{{$category->name}}</td>
                 <td>{{$category->description}}</td>
@@ -35,7 +33,6 @@
                         if (result){}else{event.preventDefault()}">
                             <span class="fa fa-trash"></span> Delete
                         </button>
-
                     </form>
                 </td>
             </tr>
