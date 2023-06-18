@@ -29,3 +29,7 @@ Route::put('/categories/{id}/update',[\App\Http\Controllers\CategoryController::
 Route::delete('/categories/{id}',[\App\Http\Controllers\CategoryController::class,'destroy']);
 */
 Route::resource('categories',\App\Http\Controllers\CategoryController::class);
+
+Route::resource('brands',\App\Http\Controllers\BrandController::class);
+
+Route::resource('products',\App\Http\Controllers\ProductController::class);

@@ -2,28 +2,26 @@
 @section('content')
     <div class="container-fluid">
 
-<a href="{{route('categories.create')}}" class="btn btn-primary mb-5 float-right">Create</a>
+<a href="{{route('brands.create')}}" class="btn btn-primary mb-5 float-right">Create</a>
 
 <table class="table table-striped">
     <thead>
       <tr>
         <th>Name</th>
-        <th>Description</th>
-        <th>Type</th>
-        <th>Status</th>
+        <th>Image</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-        @foreach ($categories as $category)
+        @foreach ($brands as $brand)
             <tr>
-                <td>{{$category->name}}</td>
-                <td>{{$category->description}}</td>
-                <td>{{$category->type}}</td>
-                <td>{{$category->status}}</td>
+                <td>{{$brand->name}}</td>
                 <td>
-                    <a href="{{route('categories.edit',$category)}}" class="btn btn-outline-primary">Edit</a>
-                    <form method="post" action="{{route('categories.destroy',$category)}}"
+                    <img width="100" src="{{url('storage/'.$brand->image)}}">
+                </td>
+                <td>
+                    <a href="{{route('brands.edit',$brand)}}" class="btn btn-outline-primary">Edit</a>
+                    <form method="post" action="{{route('brands.destroy',$brand)}}"
                     class="d-inline-block">
                         @csrf
                         @method('DELETE')
@@ -36,11 +34,11 @@
                 </td>
             </tr>
         @endforeach
-        @empty($category)
+        @empty($brand)
             <h3>There is not any data</h3>
         @endempty
     </tbody>
   </table>
-        {!! $categories->render() !!}
+        {!! $brands->render() !!}
     </div>
 @endsection
