@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\PostController;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,20 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[\App\Http\Controllers\PostController::class,'index']);
-Route::get('/cards',[\App\Http\Controllers\PostController::class,'cards']);
+Route::get('/', function () {
+    return view('welcome');
+});
 
-//Route::get('/categories',[\App\Http\Controllers\CategoryController::class,'index'])->name('categories.index');
-/*Route::get('/categories/{id}',[\App\Http\Controllers\CategoryController::class,'show']);
-Route::get('/categories/create',[\App\Http\Controllers\CategoryController::class,'create']);
-Route::get('/categories/{id}/edit',[\App\Http\Controllers\CategoryController::class,'edit']);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::post('/categories/store',[\App\Http\Controllers\CategoryController::class,'store']);
-Route::put('/categories/{id}/update',[\App\Http\Controllers\CategoryController::class,'update']);
-Route::delete('/categories/{id}',[\App\Http\Controllers\CategoryController::class,'destroy']);
-*/
-Route::resource('categories',\App\Http\Controllers\CategoryController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::resource('brands',\App\Http\Controllers\BrandController::class);
-
-Route::resource('products',\App\Http\Controllers\ProductController::class);
+require __DIR__.'/auth.php';
